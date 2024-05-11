@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 250, 250, 250;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+  }
+}
+
+body {
+  color: black;
+}
+
+@layer utilities {
+  .nav-links {
+    @apply text-zinc-500 hover:text-zinc-800 transition-colors;
+  }
+}
