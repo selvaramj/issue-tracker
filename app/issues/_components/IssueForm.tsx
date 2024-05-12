@@ -1,5 +1,6 @@
 'use client';
-import { ErrorMessage, Spinner } from '@/app/components';
+import Spinner from '@/app/components/Spinner';
+import ErrorMessage from '@/app/components/ErrorMessage';
 import { issueCreateSchema } from '@/app/validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Issue } from '@prisma/client';
@@ -43,24 +44,24 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     }
   });
   return (
-    <div className="max-w-xl">
-      <form onSubmit={onSubmitHandler} className="space-y-2">
+    <div className='max-w-xl'>
+      <form onSubmit={onSubmitHandler} className='space-y-2'>
         <TextField.Root
-          placeholder="Title"
+          placeholder='Title'
           {...register('title')}
           defaultValue={issue?.title}
         />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
-          name="description"
+          name='description'
           defaultValue={issue?.description}
           render={({ field }) => (
-            <SimpleMDE placeholder="Description of the bug" {...field} />
+            <SimpleMDE placeholder='Description of the bug' {...field} />
           )}
           control={control}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button type="submit" disabled={loading}>
+        <Button type='submit' disabled={loading}>
           {buttonLabel} {loading && <Spinner />}
         </Button>
       </form>
