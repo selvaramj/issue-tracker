@@ -1,18 +1,22 @@
-import React from 'react';
-import prisma from '@/prisma/client';
-import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import IssueFormSkeleton from '../../_components/IssueFormSkeleton';
+import React, { cache } from "react";
+import prisma from "@/prisma/client";
+import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
+import IssueFormSkeleton from "../../_components/IssueFormSkeleton";
 
-const IssueForm = dynamic(() => import('@/app/issues/_components/IssueForm'), {
+interface Props {
+  params: { id: string };
+}
+const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
   loading: () => <IssueFormSkeleton />,
 });
-const IssueEditPage = async ({
-  params: { id },
-}: {
-  params: { id: string };
-}) => {
-  const issue = await prisma.issue.findUnique({ where: { id: +id } });
+
+const fetchIssue = cache(async (issueId: number) =>
+  prisma.issue.findUnique({ where: { id: issueId } })
+);
+
+const IssueEditPage = async ({ params: { id } }: Props) => {
+  const issue = await fetchIssue(+id);
   if (!issue) {
     notFound();
   }
@@ -20,3 +24,14 @@ const IssueEditPage = async ({
 };
 
 export default IssueEditPage;
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await fetchIssue(+params.id);
+  if (!issue) {
+    notFound();
+  }
+  return {
+    title: issue?.title,
+    description: issue?.description,
+  };
+}

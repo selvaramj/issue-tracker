@@ -7,14 +7,19 @@ import DeleteButton from "./DeleteButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/authOptions";
 import Assignee from "./Assignee";
+import { cache } from "react";
 
 interface Props {
   params: { id: string };
 }
 
+const fetchIssue = cache((issueId: number) =>
+  prisma.issue.findUnique({ where: { id: issueId } })
+);
+
 const page = async ({ params: { id } }: Props) => {
   const session = await getServerSession(authOptions);
-  const issue = await prisma.issue.findUnique({ where: { id: +id } });
+  const issue = await fetchIssue(+id);
 
   if (!issue) notFound();
   return (
@@ -36,3 +41,11 @@ const page = async ({ params: { id } }: Props) => {
 };
 
 export default page;
+
+export async function generateMetadata({ params }: Props) {
+  const issue = await fetchIssue(+params.id);
+  return {
+    title: issue?.title,
+    description: issue?.description,
+  };
+}
