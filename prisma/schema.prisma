@@ -6,18 +6,18 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
 model Issue {
-  id               Int      @id @default(autoincrement())
-  title            String   @db.VarChar(255)
-  description      String   @db.Text
+  id               Int      @id @default(sequence())
+  title            String   @db.String(255)
+  description      String   @db.String(200)
   status           Status   @default(OPEN)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  assignedToUserId String?  @db.VarChar(255)
+  assignedToUserId String?  @db.String(255)
   assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
 }
 
@@ -33,12 +33,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String? @db.String()
+  access_token      String? @db.String()
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String? @db.String()
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
