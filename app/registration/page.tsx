@@ -73,10 +73,10 @@ const RegistrationPage = () => {
               </Box>
             </div>
             <Flex justify="between">
-              <Button type="reset" disabled={false}>
+              <Button type="reset" color="cyan">
                 Reset
               </Button>
-              <Button type="submit" disabled={false}>
+              <Button type="submit" color="orange">
                 Submit
               </Button>
             </Flex>
