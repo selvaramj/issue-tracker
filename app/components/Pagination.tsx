@@ -28,6 +28,8 @@ const Pagination = (props: Props) => {
 
     router.push("?" + params);
   };
+  if (!pageCount)
+    return <p className="m-2 text-center">Currently no data found.</p>;
   return (
     <Flex align="center" gap="2" mt="3" justify="center">
       <Button
