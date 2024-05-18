@@ -89,7 +89,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
               </select>
               <ErrorMessage>{errors.status?.message}</ErrorMessage>
             </Flex>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} className="bg-green-700">
               {buttonLabel} {loading && <Spinner />}
             </Button>
           </Flex>
