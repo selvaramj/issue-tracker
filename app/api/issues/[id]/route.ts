@@ -18,7 +18,7 @@ export const PATCH = async (
       { error: "Invalid request body" },
       { status: 400 }
     );
-  const { title, description, assignedToUserId } = body;
+  const { title, description, assignedToUserId, status } = body;
   const validation = patchIssueSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
@@ -38,7 +38,7 @@ export const PATCH = async (
     return NextResponse.json({ message: "Invalid issue id" }, { status: 404 });
   const updatedIssue = await prisma.issue.update({
     where: { id: +id },
-    data: { title, description, assignedToUserId },
+    data: { title, description, assignedToUserId, status },
   });
   return NextResponse.json(updatedIssue);
 };

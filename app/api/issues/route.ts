@@ -10,11 +10,12 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json("UnAuthorized access denied", { status: 401 });
   try {
     const body = await req.json();
+    const { title, description, status } = body;
     const validationResult = issueCreateSchema.safeParse(body);
     if (!validationResult.success)
       return NextResponse.json(validationResult.error.errors, { status: 400 });
     const newIssue = await prisma.issue.create({
-      data: { title: body.title, description: body.description },
+      data: { title, description, status },
     });
     return NextResponse.json(newIssue, { status: 201 });
   } catch (error: Error | any) {

@@ -75,25 +75,20 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             </Flex>
           </Flex>
           <Flex direction="column" align="start" gap="5">
-            {/* <Flex direction="column" gap="2">
+            <Flex direction="column" gap="2">
               <label htmlFor="status">Status</label>
-              <Select.Root
+              <select
                 {...register("status")}
                 name="status"
-                defaultValue="OPEN"
-                onValueChange={(value) =>
-                  register("status", { value: value || "OPEN" })
-                }
+                defaultValue={issue?.status || "OPEN"}
+                className="border-2 px-0.5 py-1 rounded-md"
               >
-                <Select.Trigger placeholder="Status" />
-                <Select.Content>
-                  <Select.Item value="OPEN">Open</Select.Item>
-                  <Select.Item value="IN_PROGRESS">In Progress</Select.Item>
-                  <Select.Item value="CLOSED">Closed</Select.Item>
-                </Select.Content>
-              </Select.Root>
+                <option value="OPEN">Open</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="CLOSED">Closed</option>
+              </select>
               <ErrorMessage>{errors.status?.message}</ErrorMessage>
-            </Flex> */}
+            </Flex>
             <Button type="submit" disabled={loading}>
               {buttonLabel} {loading && <Spinner />}
             </Button>

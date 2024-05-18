@@ -1,10 +1,10 @@
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
+import "./theme-config.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavBar from "./NavBar";
-import { Container, Theme, ThemePanel } from "@radix-ui/themes";
-import "./theme-config.css";
+import { Container, Theme } from "@radix-ui/themes";
 import SessionProvider from "./auth/SessionProvider";
 import QueryClientProvider from "@/QueryClientProvider";
 

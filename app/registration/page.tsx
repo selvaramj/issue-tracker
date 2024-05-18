@@ -7,13 +7,21 @@ import { userRegistrationSchema } from "../validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Spinner from "../components/Spinner";
+import ErrorMessage from "../components/ErrorMessage";
 
 type RegFormData = z.infer<typeof userRegistrationSchema>;
 const RegistrationPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const { register, formState, handleSubmit, reset } = useForm<RegFormData>({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<RegFormData>({
     resolver: zodResolver(userRegistrationSchema),
   });
 
@@ -25,8 +33,8 @@ const RegistrationPage = () => {
         console.log("Registration successful");
       }
       router.push("/");
-    } catch (error) {
-      console.log("The Error ", error);
+    } catch (error: { error: string } | any) {
+      setError(error?.error || "Registration failed.. ");
     } finally {
       setIsLoading(false);
     }
@@ -49,6 +57,9 @@ const RegistrationPage = () => {
                   {...register("name")}
                 />
               </Box>
+              {errors.name && (
+                <ErrorMessage>{errors.name?.message}</ErrorMessage>
+              )}
             </div>
             <div>
               <label htmlFor="email">Email</label>
@@ -60,6 +71,9 @@ const RegistrationPage = () => {
                   {...register("email")}
                 />
               </Box>
+              {errors.email && (
+                <ErrorMessage>{errors.email?.message}</ErrorMessage>
+              )}
             </div>
             <div>
               <label htmlFor="password">Password</label>
@@ -73,13 +87,25 @@ const RegistrationPage = () => {
               </Box>
             </div>
             <Flex justify="between">
-              <Button type="reset" color="cyan">
+              <Button
+                type="reset"
+                color="cyan"
+                disabled={isLoading}
+                className="bg-cyan-500"
+              >
                 Reset
               </Button>
-              <Button type="submit" color="orange">
+              <Button
+                type="submit"
+                color="orange"
+                disabled={isLoading}
+                className="bg-orange-600"
+              >
                 Submit
+                {isLoading && <Spinner />}
               </Button>
             </Flex>
+            {error && <ErrorMessage alignCenter>{error}</ErrorMessage>}
           </Flex>
         </form>
       </Card>
