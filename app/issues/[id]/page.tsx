@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/authOptions";
 import Assignee from "./Assignee";
 import { cache } from "react";
+import Comments from "../_components/Comments";
 
 interface Props {
   params: { id: string };
@@ -23,24 +24,31 @@ const page = async ({ params: { id } }: Props) => {
 
   if (!issue) notFound();
   return (
-    <Grid columns={{ sm: "1", md: "5" }} gap="5">
-      <Box className="lg:col-span-4">
-        <IssueDetails issue={issue} />
-      </Box>
-      {session && (
-        <Box>
-          <Flex direction="column" gap="4" className="max-w-fit">
-            <Assignee issue={issue} />
-            <EditButton issueId={issue.id} />
-            <DeleteButton issueId={issue.id} />
-          </Flex>
+    <>
+      <Grid columns={{ sm: "1", md: "5" }} gap="5">
+        <Box className="lg:col-span-4">
+          <IssueDetails issue={issue} />
         </Box>
-      )}
-    </Grid>
+        {session && (
+          <Box>
+            <Flex direction="column" gap="4" className="max-w-fit">
+              <Assignee issue={issue} />
+              <EditButton issueId={issue.id} />
+              <DeleteButton issueId={issue.id} />
+            </Flex>
+          </Box>
+        )}
+      </Grid>
+      <Grid columns={{ sm: "1", md: "2" }} gap="5">
+        <Comments issueId={issue.id + ""} />
+      </Grid>
+    </>
   );
 };
 
 export default page;
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props) {
   const issue = await fetchIssue(+params.id);

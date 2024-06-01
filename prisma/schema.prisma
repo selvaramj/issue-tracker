@@ -58,15 +58,16 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  hashedPassword String?
-  emailVerified  DateTime? @map("email_verified")
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  assignedIssues Issue[]
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  hashedPassword   String?
+  emailVerified    DateTime? @map("email_verified")
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  assignedIssues   Issue[]
+  assignedComments Comment[]
 
   @@map("users")
 }
@@ -78,4 +79,13 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Comment {
+  id              String   @id @default(cuid())
+  description     String   @db.String(350)
+  createdAt       DateTime @default(now())
+  issueId         String
+  commentedUserId String?  @db.String(255)
+  commentedUser   User?    @relation(fields: [commentedUserId], references: [id])
 }

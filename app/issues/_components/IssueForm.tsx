@@ -26,14 +26,11 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const buttonLabel = issue ? "Update issue" : "Submit new issue";
-  console.log("error ", errors);
 
   const onSubmitHandler = handleSubmit(async (data: IssueFormData) => {
     try {
       setLoading(true);
       let response;
-      console.log("data ", data);
-
       if (issue) response = await axios.patch(`/api/issues/${issue.id}`, data);
       else response = await axios.post<IssueFormData>("/api/issues", data);
       if (response) {
@@ -47,7 +44,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     }
   });
   return (
-    <div className="max-w-xl">
+    <div className="max-w-2xl">
       <form onSubmit={onSubmitHandler} className="space-y-2">
         <Flex gap="5" wrap="wrap">
           <Flex direction="column" gap="5">

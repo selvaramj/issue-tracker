@@ -5,7 +5,17 @@ import bcrypt from "bcrypt";
 
 export const GET = async (request: NextRequest) => {
   const users =
-    (await prisma.user.findMany({ orderBy: { name: "asc" } })) || [];
+    (await prisma.user.findMany({
+      orderBy: { name: "asc" },
+      select: {
+        hashedPassword: false,
+        name: true,
+        assignedIssues: true,
+        email: true,
+        id: true,
+        image: true,
+      },
+    })) || [];
   return NextResponse.json(users);
 };
 
