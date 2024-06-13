@@ -49,10 +49,10 @@ const Comments = ({ issueId }: Props) => {
   };
 
   return (
-    <Flex direction="column" gap="3">
+    <Flex direction="column" gap="3" mt="5">
       <Heading as="h2">Comments</Heading>
       {status === "authenticated" && (
-        <Flex direction="column" gap="3" width="550px">
+        <Flex direction="column" gap="3" className="w-full sm:w-80">
           <TextArea placeholder="Share your thoughts..." ref={ref} />
           <Button onClick={onSubmitHandler} size="2" style={{ width: "180px" }}>
             Add Comment

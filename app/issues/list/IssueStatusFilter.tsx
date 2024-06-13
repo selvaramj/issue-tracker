@@ -29,7 +29,7 @@ const IssueStatusFilter = ({ searchParams }: { searchParams: any }) => {
   };
 
   return (
-    <Flex gap="2">
+    <Flex gap="2" className="flex-col sm:flex-row">
       <Select.Root
         onValueChange={(value) =>
           onFilterChangeHandler(value, { status: value }, "status")

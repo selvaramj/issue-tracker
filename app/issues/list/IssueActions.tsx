@@ -6,9 +6,9 @@ import PageSizeDropdown from "./PageSizeDropdown";
 
 const IssueActions = ({ searchParams }: { searchParams: object }) => {
   return (
-    <Flex className="mb-5" justify="between">
+    <Flex className="mb-5" justify="between" gap="2">
       <IssueStatusFilter searchParams={searchParams} />
-      <Flex gap="2">
+      <Flex gap="2" className="flex-wrap">
         <PageSizeDropdown
           pagesSizes={["5", "10", "20", "50", "100"]}
           searchParams={searchParams}
